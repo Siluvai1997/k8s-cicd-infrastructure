@@ -1,0 +1,16 @@
+controller:
+  adminUser: admin
+  adminPassword: admin
+  serviceType: NodePort
+  nodePort: 30080
+  installPlugins:
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - docker-plugin
+    - configuration-as-code
+
+agent:
+  image: jenkins/inbound-agent
+  privileged: true
+  runAsUser: 0

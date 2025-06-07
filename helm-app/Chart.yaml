@@ -1,0 +1,4 @@
+apiVersion: v2
+name: flask-app
+description: Flask app for CI/CD demo
+version: 0.1.0

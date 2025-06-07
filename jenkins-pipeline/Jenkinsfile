@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+  environment {
+    IMAGE = "nexus.local:8082/flask-app"
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        sh '''
+        docker build -t $IMAGE ./app
+        '''
+      }
+    }
+
+    stage('Push to Nexus') {
+      steps {
+        sh '''
+        docker login nexus.local:8082 -u admin -p admin123
+        docker push $IMAGE
+        '''
+      }
+    }
+
+    stage('Deploy to K8s') {
+      steps {
+        sh '''
+        helm upgrade --install flask-app ./helm-app \
+          --set image.repository=$IMAGE \
+          --set image.tag=latest
+        '''
+      }
+    }
+  }
+}
